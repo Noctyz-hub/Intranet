@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Commissariat RP — Portail Officiel</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div class="scanlines"></div>
+  <div class="grid-bg"></div>
+
+  <header>
+    <div class="header-badge">
+      <div class="badge-icon">⚔️</div>
+      <div class="badge-text">
+        <span class="badge-sup">FORCES DE L'ORDRE</span>
+        <span class="badge-title">COMMISSARIAT RP</span>
+        <span class="badge-sub">PORTAIL OFFICIEL SÉCURISÉ</span>
+      </div>
+      <div class="badge-icon">⚔️</div>
+    </div>
+    <div class="header-stripe"></div>
+    <div class="header-info">
+      <span id="live-date"></span>
+      <span class="sep">|</span>
+      <span>SYSTÈME v3.0</span>
+      <span class="sep">|</span>
+      <span>DOC #<span id="rnum">----</span></span>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-btn active" data-tab="rapport">
+      <span class="nav-icon">📝</span>
+      <span class="nav-label">Rapport de Police</span>
+      <span class="nav-sub">Compte-rendu d'intervention</span>
+    </button>
+    <button class="nav-btn" data-tab="plainte">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">Dépôt de Plainte</span>
+      <span class="nav-sub">Déclaration de victime</span>
+    </button>
+    <button class="nav-btn" data-tab="interrogatoire">
+      <span class="nav-icon">🎙️</span>
+      <span class="nav-label">Interrogatoire</span>
+      <span class="nav-sub">Audition de suspect</span>
+    </button>
+  </nav>
+
+  <main>
+
+    <!-- RAPPORT -->
+    <div id="tab-rapport" class="tab-content active">
+      <div class="form-container">
+
+        <section class="section webhook-section">
+          <div class="section-header"><span class="section-icon">🔗</span><h2>Webhook Discord — Rapports</h2><div class="section-line"></div></div>
+          <div class="field-group">
+            <label for="webhookRapport">URL du Webhook <span class="required">*</span></label>
+            <input type="url" id="webhookRapport" placeholder="https://discord.com/api/webhooks/..." />
+            <span class="field-hint">Webhook dédié au canal #rapports-police</span>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">📝</span><h2>1. En-Tête du Rapport</h2><div class="section-line"></div></div>
+          <div class="grid-2">
+            <div class="field-group">
+              <label for="r-service">Service <span class="required">*</span></label>
+              <select id="r-service">
+                <option value="">— Sélectionner —</option>
+                <option>Brigade Anti-Criminalité (BAC)</option>
+                <option>Police Judiciaire (PJ)</option>
+                <option>Commissariat Central RP</option>
+                <option>Brigade de Nuit</option>
+                <option>Unité Spéciale d'Intervention</option>
+                <option>Patrouille de Routine</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="r-agent">Nom / Grade de l'agent <span class="required">*</span></label>
+              <input type="text" id="r-agent" placeholder="Ex : Inspecteur Martin" />
+            </div>
+            <div class="field-group">
+              <label for="r-date">Date &amp; Heure <span class="required">*</span></label>
+              <input type="datetime-local" id="r-date" />
+            </div>
+            <div class="field-group">
+              <label for="r-lieu">Lieu de l'intervention <span class="required">*</span></label>
+              <input type="text" id="r-lieu" placeholder="Ex : Rue de la Paix, Zone Industrielle..." />
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">👮</span><h2>2. Identification</h2><div class="section-line"></div></div>
+          <div class="field-group">
+            <label for="r-agents">Agents présents (Nom + Grade)</label>
+            <textarea id="r-agents" rows="3" placeholder="— Inspecteur Martin (chef)&#10;— Agent Dupont&#10;— Agent Leroy"></textarea>
+          </div>
+          <div class="grid-3">
+            <div class="field-group"><label for="r-suspects">🔴 Suspect(s)</label><textarea id="r-suspects" rows="4" placeholder="Nom, description, statut..."></textarea></div>
+            <div class="field-group"><label for="r-victimes">🟡 Victime(s)</label><textarea id="r-victimes" rows="4" placeholder="Nom, préjudice subi..."></textarea></div>
+            <div class="field-group"><label for="r-temoins">🟢 Témoin(s)</label><textarea id="r-temoins" rows="4" placeholder="Nom, déclarations..."></textarea></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">📍</span><h2>3. Motif de l'Intervention</h2><div class="section-line"></div></div>
+          <div class="grid-2">
+            <div class="field-group">
+              <label for="r-motif-type">Type d'intervention <span class="required">*</span></label>
+              <select id="r-motif-type">
+                <option value="">— Sélectionner —</option>
+                <option>Appel radio</option>
+                <option>Signalement citoyen</option>
+                <option>Contrôle de routine</option>
+                <option>Flagrant délit</option>
+                <option>Réquisition judiciaire</option>
+                <option>Opération planifiée</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="r-motif-detail">Détail du motif <span class="required">*</span></label>
+              <textarea id="r-motif-detail" rows="3" placeholder="Suite à un appel signalant un vol de véhicule..."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">📖</span><h2>4. Déroulement des Faits</h2><div class="section-line"></div></div>
+          <div class="field-hint-block">⚠️ Neutre — Professionnel — Précis (heures + actions)</div>
+          <div class="field-group"><label for="r-arrivee">À l'arrivée sur les lieux</label><textarea id="r-arrivee" rows="3" placeholder="Décrivez la scène telle que vous l'avez trouvée..."></textarea></div>
+          <div class="field-group"><label for="r-actions-suspects">Actions des suspects</label><textarea id="r-actions-suspects" rows="3" placeholder="Comportement, tentative de fuite, agression..."></textarea></div>
+          <div class="field-group"><label for="r-actions-policiers">Actions des policiers</label><textarea id="r-actions-policiers" rows="3" placeholder="Interpellation, sommations, usage de la force..."></textarea></div>
+          <div class="field-group"><label for="r-poursuite">Poursuites / Interpellations</label><textarea id="r-poursuite" rows="3" placeholder="Détail des poursuites, méthode d'interpellation..."></textarea></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">⚖️</span><h2>5. Infractions Constatées</h2><div class="section-line"></div></div>
+          <div class="infractions-grid" id="r-infractions">
+            <label class="infraction-item"><input type="checkbox" value="Vol simple"/> Vol simple</label>
+            <label class="infraction-item"><input type="checkbox" value="Vol avec violence"/> Vol avec violence</label>
+            <label class="infraction-item"><input type="checkbox" value="Refus d'obtempérer"/> Refus d'obtempérer</label>
+            <label class="infraction-item"><input type="checkbox" value="Conduite dangereuse"/> Conduite dangereuse</label>
+            <label class="infraction-item"><input type="checkbox" value="Agression physique"/> Agression physique</label>
+            <label class="infraction-item"><input type="checkbox" value="Port d'arme illégal"/> Port d'arme illégal</label>
+            <label class="infraction-item"><input type="checkbox" value="Trafic de stupéfiants"/> Trafic de stupéfiants</label>
+            <label class="infraction-item"><input type="checkbox" value="Homicide / Tentative"/> Homicide / Tentative</label>
+            <label class="infraction-item"><input type="checkbox" value="Évasion"/> Évasion</label>
+            <label class="infraction-item"><input type="checkbox" value="Outrage à agent"/> Outrage à agent</label>
+            <label class="infraction-item"><input type="checkbox" value="Destruction de bien"/> Destruction de bien</label>
+            <label class="infraction-item"><input type="checkbox" value="Séquestration"/> Séquestration</label>
+          </div>
+          <div class="field-group" style="margin-top:1rem;"><label for="r-infractions-autres">Autres infractions</label><input type="text" id="r-infractions-autres" placeholder="Précisez d'autres infractions..."/></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">🔒</span><h2>6. Mesures Prises</h2><div class="section-line"></div></div>
+          <div class="infractions-grid" id="r-mesures">
+            <label class="infraction-item"><input type="checkbox" value="Interpellation"/> Interpellation</label>
+            <label class="infraction-item"><input type="checkbox" value="Garde à vue"/> Garde à vue</label>
+            <label class="infraction-item"><input type="checkbox" value="Amende"/> Amende</label>
+            <label class="infraction-item"><input type="checkbox" value="Saisie d'objets"/> Saisie d'objets</label>
+            <label class="infraction-item"><input type="checkbox" value="Remise en liberté"/> Remise en liberté</label>
+            <label class="infraction-item"><input type="checkbox" value="Transfert judiciaire"/> Transfert judiciaire</label>
+          </div>
+          <div class="field-group" style="margin-top:1rem;"><label for="r-mesures-detail">Détail des mesures</label><textarea id="r-mesures-detail" rows="3" placeholder="Montant de l'amende, objets saisis, durée GAV..."></textarea></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">📦</span><h2>7. Éléments de Preuve</h2><div class="section-line"></div></div>
+          <div class="grid-2">
+            <div class="field-group"><label for="r-temoignages">Témoignages</label><textarea id="r-temoignages" rows="4" placeholder="Résumé des déclarations des témoins..."></textarea></div>
+            <div class="field-group"><label for="r-objets">Objets saisis / Preuves matérielles</label><textarea id="r-objets" rows="4" placeholder="Liste des objets saisis, screenshots RP..."></textarea></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">✍️</span><h2>8. Conclusion</h2><div class="section-line"></div></div>
+          <div class="field-group"><label for="r-resume">Résumé rapide</label><textarea id="r-resume" rows="3" placeholder="Résumé global de l'intervention..."></textarea></div>
+          <div class="field-group">
+            <label for="r-situation">Situation finale <span class="required">*</span></label>
+            <select id="r-situation">
+              <option value="">— Sélectionner —</option>
+              <option>✅ Suspect(s) arrêté(s) — Affaire classée</option>
+              <option>🔴 Suspect(s) en fuite — Recherche en cours</option>
+              <option>⚖️ Dossier transmis au parquet</option>
+              <option>🟡 Enquête en cours</option>
+              <option>🟢 Situation résolue — Aucune suite</option>
+            </select>
+          </div>
+          <div class="field-group"><label for="r-remarques">Remarques supplémentaires</label><textarea id="r-remarques" rows="3" placeholder="Informations additionnelles..."></textarea></div>
+        </section>
+
+        <div class="actions">
+          <button class="btn btn-secondary" onclick="previewForm('rapport')">👁️ Prévisualiser</button>
+          <button class="btn btn-danger" onclick="resetForm('rapport')">🗑️ Réinitialiser</button>
+          <button class="btn btn-primary" onclick="sendForm('rapport')">📤 Envoyer sur Discord</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLAINTE -->
+    <div id="tab-plainte" class="tab-content">
+      <div class="form-container">
+
+        <section class="section webhook-section">
+          <div class="section-header"><span class="section-icon">🔗</span><h2>Webhook Discord — Plaintes</h2><div class="section-line"></div></div>
+          <div class="field-group">
+            <label for="webhookPlainte">URL du Webhook <span class="required">*</span></label>
+            <input type="url" id="webhookPlainte" placeholder="https://discord.com/api/webhooks/..." />
+            <span class="field-hint">Webhook dédié au canal #dépôts-de-plainte</span>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">👤</span><h2>1. Informations du Plaignant</h2><div class="section-line"></div></div>
+          <div class="grid-2">
+            <div class="field-group"><label for="p-nom">Nom / Prénom (RP) <span class="required">*</span></label><input type="text" id="p-nom" placeholder="Ex : Jean Dupont" /></div>
+            <div class="field-group"><label for="p-ddn">Date de naissance (optionnel)</label><input type="date" id="p-ddn" /></div>
+            <div class="field-group"><label for="p-contact">Moyen de contact RP</label><input type="text" id="p-contact" placeholder="Téléphone RP, adresse..." /></div>
+            <div class="field-group"><label for="p-agent-recevant">Agent recevant la plainte</label><input type="text" id="p-agent-recevant" placeholder="Nom + grade de l'agent" /></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">📍</span><h2>2. Lieu et Date des Faits</h2><div class="section-line"></div></div>
+          <div class="grid-2">
+            <div class="field-group"><label for="p-lieu">Lieu des faits <span class="required">*</span></label><input type="text" id="p-lieu" placeholder="Ex : Parking du centre commercial..." /></div>
+            <div class="field-group"><label for="p-date">Date &amp; heure des faits <span class="required">*</span></label><input type="datetime-local" id="p-date" /></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">📖</span><h2>3. Description des Faits</h2><div class="section-line"></div></div>
+          <div class="field-hint-block">⚠️ Clair — Logique — Sans exagération</div>
+          <div class="field-group"><label for="p-avant">Que faisiez-vous avant les faits ?</label><textarea id="p-avant" rows="3" placeholder="Je me trouvais... Je revenais de..."></textarea></div>
+          <div class="field-group"><label for="p-vu">Ce que vous avez vu / vécu <span class="required">*</span></label><textarea id="p-vu" rows="4" placeholder="Décrivez précisément ce qui s'est passé..."></textarea></div>
+          <div class="field-group"><label for="p-suspect-action">Ce que le suspect a fait</label><textarea id="p-suspect-action" rows="3" placeholder="Actions, paroles, menaces du suspect..."></textarea></div>
+          <div class="field-group"><label for="p-fin">Comment ça s'est terminé ?</label><textarea id="p-fin" rows="3" placeholder="Le suspect a pris la fuite... J'ai appelé le 17..."></textarea></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">🧍</span><h2>4. Description du Suspect</h2><div class="section-line"></div></div>
+          <div class="grid-2">
+            <div class="field-group"><label for="p-suspect-nom">Nom du suspect (si connu)</label><input type="text" id="p-suspect-nom" placeholder="Nom RP ou inconnu" /></div>
+            <div class="field-group"><label for="p-suspect-vehicule">Véhicule utilisé</label><input type="text" id="p-suspect-vehicule" placeholder="Marque, couleur, plaque RP..." /></div>
+            <div class="field-group" style="grid-column:span 2;"><label for="p-suspect-description">Apparence physique</label><textarea id="p-suspect-description" rows="3" placeholder="Taille, corpulence, vêtements, signes particuliers..."></textarea></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">📦</span><h2>5. Préjudice</h2><div class="section-line"></div></div>
+          <div class="grid-3">
+            <div class="field-group"><label for="p-vole">Objets perdus / volés</label><textarea id="p-vole" rows="4" placeholder="Liste et valeur estimée..."></textarea></div>
+            <div class="field-group"><label for="p-blessures">Blessures (RP médical)</label><textarea id="p-blessures" rows="4" placeholder="Type de blessures, hospitalisation..."></textarea></div>
+            <div class="field-group"><label for="p-degats">Dégâts matériels</label><textarea id="p-degats" rows="4" placeholder="Véhicule endommagé, propriété..."></textarea></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">✍️</span><h2>6. Signature</h2><div class="section-line"></div></div>
+          <div class="grid-2">
+            <div class="field-group"><label for="p-signature">Nom du plaignant <span class="required">*</span></label><input type="text" id="p-signature" placeholder="Signature manuscrite RP" /></div>
+            <div class="field-group"><label for="p-date-signature">Date de la plainte</label><input type="date" id="p-date-signature" /></div>
+          </div>
+          <div class="field-group"><label for="p-remarques">Observations de l'agent</label><textarea id="p-remarques" rows="3" placeholder="Notes de l'agent recevant la plainte..."></textarea></div>
+        </section>
+
+        <div class="actions">
+          <button class="btn btn-secondary" onclick="previewForm('plainte')">👁️ Prévisualiser</button>
+          <button class="btn btn-danger" onclick="resetForm('plainte')">🗑️ Réinitialiser</button>
+          <button class="btn btn-primary" onclick="sendForm('plainte')">📤 Envoyer sur Discord</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERROGATOIRE -->
+    <div id="tab-interrogatoire" class="tab-content">
+      <div class="form-container">
+
+        <section class="section webhook-section">
+          <div class="section-header"><span class="section-icon">🔗</span><h2>Webhook Discord — Interrogatoires</h2><div class="section-line"></div></div>
+          <div class="field-group">
+            <label for="webhookInterro">URL du Webhook <span class="required">*</span></label>
+            <input type="url" id="webhookInterro" placeholder="https://discord.com/api/webhooks/..." />
+            <span class="field-hint">Webhook dédié au canal #interrogatoires</span>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">👮</span><h2>1. Informations de Base</h2><div class="section-line"></div></div>
+          <div class="grid-2">
+            <div class="field-group"><label for="i-agent">Nom de l'agent <span class="required">*</span></label><input type="text" id="i-agent" placeholder="Ex : Inspecteur Moreau" /></div>
+            <div class="field-group">
+              <label for="i-grade">Grade <span class="required">*</span></label>
+              <select id="i-grade">
+                <option value="">— Sélectionner —</option>
+                <option>Gardien de la Paix</option>
+                <option>Brigadier</option>
+                <option>Brigadier-Chef</option>
+                <option>Capitaine</option>
+                <option>Commandant</option>
+                <option>Inspecteur</option>
+                <option>Commissaire</option>
+              </select>
+            </div>
+            <div class="field-group"><label for="i-suspect">Nom du suspect <span class="required">*</span></label><input type="text" id="i-suspect" placeholder="Nom RP du suspect" /></div>
+            <div class="field-group"><label for="i-date">Date &amp; heure <span class="required">*</span></label><input type="datetime-local" id="i-date" /></div>
+            <div class="field-group" style="grid-column:span 2;"><label for="i-lieu">Lieu</label><input type="text" id="i-lieu" placeholder="Ex : Salle d'interrogatoire n°2, Commissariat Central" /></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">⚖️</span><h2>2. Rappel des Droits</h2><div class="section-line"></div></div>
+          <div class="droits-box">
+            <p>📜 <em>"Vous avez le droit de garder le silence. Tout ce que vous direz pourra être retenu contre vous. Vous avez le droit de demander un avocat avant de répondre à mes questions."</em></p>
+          </div>
+          <div class="field-group">
+            <label for="i-droits-acceptes">Réponse du suspect aux droits <span class="required">*</span></label>
+            <select id="i-droits-acceptes">
+              <option value="">— Sélectionner —</option>
+              <option>✅ Droits lus — Suspect accepte de répondre</option>
+              <option>🤐 Suspect invoque son droit au silence</option>
+              <option>⚖️ Suspect demande la présence d'un avocat</option>
+              <option>❌ Suspect refuse de coopérer</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">❓</span><h2>3. Questions Générales</h2><div class="section-line"></div></div>
+          <div class="field-group"><label for="i-identite">Identité déclarée par le suspect</label><input type="text" id="i-identite" placeholder="Nom, prénom, date de naissance déclarés..." /></div>
+          <div class="field-group"><label for="i-avant-faits">Où était le suspect avant les faits ?</label><textarea id="i-avant-faits" rows="3" placeholder="Déclaration du suspect sur sa position avant les faits..."></textarea></div>
+          <div class="field-group"><label for="i-activite">Que faisait le suspect ?</label><textarea id="i-activite" rows="3" placeholder="Activité déclarée par le suspect..."></textarea></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">🔍</span><h2>4. Questions sur les Faits</h2><div class="section-line"></div></div>
+          <div class="field-hint-block">💡 Posez des questions claires, une par une</div>
+          <div id="questions-container"></div>
+          <button class="btn btn-add" onclick="addQuestion()">➕ Ajouter une question</button>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">🧠</span><h2>5. Confrontation aux Preuves</h2><div class="section-line"></div></div>
+          <div class="field-group"><label for="i-preuves-montrees">Preuves présentées au suspect</label><textarea id="i-preuves-montrees" rows="3" placeholder="Témoignages, vidéos RP, objets saisis présentés..."></textarea></div>
+          <div class="field-group"><label for="i-incoherences">Incohérences relevées</label><textarea id="i-incoherences" rows="3" placeholder="Ex : Nous avons des témoins qui vous placent sur les lieux..."></textarea></div>
+          <div class="field-group"><label for="i-reaction-preuves">Réaction du suspect face aux preuves</label><textarea id="i-reaction-preuves" rows="3" placeholder="Comment le suspect a-t-il réagi ?"></textarea></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">✍️</span><h2>6. Déclaration du Suspect</h2><div class="section-line"></div></div>
+          <div class="field-group"><label for="i-declaration">Version complète du suspect</label><textarea id="i-declaration" rows="6" placeholder="Notez exactement ce que le suspect déclare comme version des faits..."></textarea></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header"><span class="section-icon">🔒</span><h2>7. Conclusion de l'Interrogatoire</h2><div class="section-line"></div></div>
+          <div class="field-group"><label for="i-resume">Résumé de l'interrogatoire</label><textarea id="i-resume" rows="3" placeholder="Points clés retenus, aveux, dénégations..."></textarea></div>
+          <div class="field-group">
+            <label for="i-decision">Décision finale <span class="required">*</span></label>
+            <select id="i-decision">
+              <option value="">— Sélectionner —</option>
+              <option>🔒 Prolongation de la garde à vue</option>
+              <option>🟢 Libération — Aucune charge</option>
+              <option>⚖️ Mise en examen (RP)</option>
+              <option>🔴 Incarcération — Charges retenues</option>
+              <option>📋 Dossier transmis au procureur</option>
+            </select>
+          </div>
+          <div class="field-group"><label for="i-remarques">Observations de l'agent</label><textarea id="i-remarques" rows="3" placeholder="Comportement du suspect, attitude..."></textarea></div>
+        </section>
+
+        <div class="actions">
+          <button class="btn btn-secondary" onclick="previewForm('interrogatoire')">👁️ Prévisualiser</button>
+          <button class="btn btn-danger" onclick="resetForm('interrogatoire')">🗑️ Réinitialiser</button>
+          <button class="btn btn-primary" onclick="sendForm('interrogatoire')">📤 Envoyer sur Discord</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL -->
+  <div id="previewModal" class="modal hidden">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">📋 Prévisualisation</h3>
+        <button onclick="closeModal()" class="modal-close">✕</button>
+      </div>
+      <div class="modal-body" id="previewContent"></div>
+      <div class="modal-footer">
+        <button id="modalSendBtn" class="btn btn-primary">📤 Envoyer sur Discord</button>
+        <button onclick="closeModal()" class="btn btn-secondary">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden">
+    <span id="toastIcon"></span>
+    <span id="toastMsg"></span>
+  </div>
+
+  <footer>
+    <div class="footer-line"></div>
+    <p>COMMISSARIAT RP — PORTAIL OFFICIEL — DOCUMENT CONFIDENTIEL</p>
+    <p class="footer-sub">Usage interne uniquement. Toute divulgation non autorisée est passible de sanctions.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
