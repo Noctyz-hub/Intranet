@@ -4,9 +4,9 @@
 // ===========================
 
 const WEBHOOKS = {
-  rapport:        'https://discord.com/api/webhooks/VOTRE_WEBHOOK_RAPPORTS',
-  plainte:        'https://discord.com/api/webhooks/VOTRE_WEBHOOK_PLAINTES',
-  interrogatoire: 'https://discord.com/api/webhooks/VOTRE_WEBHOOK_INTERROGATOIRES',
+  rapport:        'https://discord.com/api/webhooks/1497917202324783134/lx7gFzTe5VsKN5N3YYAFRd9qfdXshp92fEDlWM3ESPmNhSqcdPJ5k3BJfJ5a2XyBIhYN',
+  plainte:        'https://discord.com/api/webhooks/1497918264691527930/ZWRFVMoHwUBk_xuMtuRvRr8pEGdmBB-StNmt81CBlKZmta_Tu-KwDqLvX_l_4EzImUI_',
+  interrogatoire: 'https://discord.com/api/webhooks/1497920904808628346/hNaQgrLfYCtWo-6wVi8GEOvHTfWE746LpZoxK1ZtkQsWzmUcOpKEAQwpt0OBDIyMfkRS',
 };
 
 // ===========================
