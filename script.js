@@ -1,4 +1,15 @@
 // ===========================
+// ⚙️ CONFIGURATION WEBHOOKS
+// Modifiez uniquement ces 3 URLs
+// ===========================
+
+const WEBHOOKS = {
+  rapport:        'https://discord.com/api/webhooks/VOTRE_WEBHOOK_RAPPORTS',
+  plainte:        'https://discord.com/api/webhooks/VOTRE_WEBHOOK_PLAINTES',
+  interrogatoire: 'https://discord.com/api/webhooks/VOTRE_WEBHOOK_INTERROGATOIRES',
+};
+
+// ===========================
 // INIT
 // ===========================
 
@@ -10,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initDate();
   initRapportNum();
   initNav();
-  loadWebhooks();
   setDefaultDates();
   addQuestion(); // ajouter une question par défaut
 });
@@ -81,39 +91,13 @@ function switchTab(tab) {
 }
 
 // ===========================
-// WEBHOOKS (localStorage)
+// WEBHOOKS
 // ===========================
 
-function loadWebhooks() {
-  const stored = {
-    rapport: localStorage.getItem('webhook_rapport') || '',
-    plainte: localStorage.getItem('webhook_plainte') || '',
-    interrogatoire: localStorage.getItem('webhook_interro') || ''
-  };
-  if (stored.rapport) document.getElementById('webhookRapport').value = stored.rapport;
-  if (stored.plainte) document.getElementById('webhookPlainte').value = stored.plainte;
-  if (stored.interrogatoire) document.getElementById('webhookInterro').value = stored.interrogatoire;
-}
-
-function saveWebhook(type) {
-  const map = {
-    rapport: { id: 'webhookRapport', key: 'webhook_rapport' },
-    plainte: { id: 'webhookPlainte', key: 'webhook_plainte' },
-    interrogatoire: { id: 'webhookInterro', key: 'webhook_interro' }
-  };
-  const { id, key } = map[type];
-  const val = document.getElementById(id).value.trim();
-  if (val) localStorage.setItem(key, val);
-}
-
 function getWebhookUrl(type) {
-  const map = {
-    rapport: 'webhookRapport',
-    plainte: 'webhookPlainte',
-    interrogatoire: 'webhookInterro'
-  };
-  return document.getElementById(map[type])?.value.trim() || '';
+  return WEBHOOKS[type] || '';
 }
+
 
 // ===========================
 // QUESTIONS DYNAMIQUES
@@ -488,14 +472,8 @@ function validateForm(type) {
   }
 
   const webhookUrl = getWebhookUrl(type);
-  if (!webhookUrl) {
-    showToast('error', '⚠️ URL du Webhook Discord manquante');
-    return false;
-  }
-
-  if (!webhookUrl.startsWith('https://discord.com/api/webhooks/') &&
-      !webhookUrl.startsWith('https://discordapp.com/api/webhooks/')) {
-    showToast('error', '❌ URL Webhook invalide');
+  if (!webhookUrl || webhookUrl.includes('VOTRE_WEBHOOK')) {
+    showToast('error', '⚠️ Configurez le webhook dans script.js');
     return false;
   }
 
@@ -547,7 +525,6 @@ function closeModal() {
 async function sendForm(type) {
   if (!validateForm(type)) return;
 
-  saveWebhook(type);
 
   const webhookUrl = getWebhookUrl(type);
   const payload = buildPayload(type);
