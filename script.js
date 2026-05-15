@@ -23,7 +23,53 @@ document.addEventListener('DOMContentLoaded', () => {
   initNav();
   setDefaultDates();
   addQuestion(); // ajouter une question par défaut
+  initTheme();   // initialiser le thème
+  createThemeToggle(); // créer le bouton
 });
+
+// ===========================
+// THÈME SOMBRE / CLAIR
+// ===========================
+
+function initTheme() {
+  const saved = localStorage.getItem('theme') || 'light';
+  applyTheme(saved);
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  const btn = document.getElementById('theme-toggle-btn');
+  if (btn) {
+    const icon = btn.querySelector('.toggle-icon');
+    const label = btn.querySelector('.toggle-label');
+    if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    if (label) label.textContent = theme === 'dark' ? 'Mode Clair' : 'Mode Sombre';
+  }
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+function createThemeToggle() {
+  const btn = document.createElement('button');
+  btn.id = 'theme-toggle-btn';
+  btn.className = 'theme-toggle';
+  btn.setAttribute('aria-label', 'Basculer le thème');
+  btn.onclick = toggleTheme;
+
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+
+  btn.innerHTML = `
+    <span class="toggle-icon">${currentTheme === 'dark' ? '☀️' : '🌙'}</span>
+    <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    <span class="toggle-label">${currentTheme === 'dark' ? 'Mode Clair' : 'Mode Sombre'}</span>
+  `;
+
+  document.body.appendChild(btn);
+}
 
 // ===========================
 // DATE & NUMÉRO
